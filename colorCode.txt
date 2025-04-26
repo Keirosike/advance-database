@@ -1,0 +1,4 @@
+#009332 - green
+#007A2A - dark green
+#FFD700 - yellow
+#B2D8B2 - soft white
