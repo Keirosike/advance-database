@@ -225,6 +225,15 @@ justify-center items-center gap-6  mt-4 lg:flex-row md:gap-6">
   </div>
 </div>
 
+<div class="flex w-full h-30 bg-black mt-8">
+<div>
+<h1 class="text-white text-2xl justify-start mt-8 mx-30">Don't Miss Our Upcoming Events!</h1>
+<p class="text-white text-lg justify-start text-light">Book your tickets today and join the fun!</p>
+</div>  
+</div>
+
+
+
   
  
  
