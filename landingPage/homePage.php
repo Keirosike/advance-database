@@ -102,8 +102,7 @@
     <h1 class="text-black font-bold text-3xl">
       Our <span class="text-[#009332]">Events</span>
     </h1>
-    <div class="absolute left-1/2 -bottom-2 transform -translate-x-1/2 w-24 h-1 bg-[#B2D8B2] rounded"></div>
-  </div>
+  
 
   <p class="text-black font-normal mt-5 text-xl ">
     Discover memorable moments and upcoming experiences you won't want to miss.
@@ -196,34 +195,44 @@ justify-center items-center gap-6  mt-4 lg:flex-row md:gap-6">
 </div>
 <div class="flex flex-col lg:flex-row justify-center lg:justify-start items-center mt-40">
   <div class="lg:ml-40 text-center lg:text-left w-full">
-    <div class="relative inline-block">
-      <h1 class="text-black font-bold text-3xl">
-        Ticket <span class="text-[#009332]">Selection</span>
-      </h1>
-      <div class="absolute left-0 -bottom-2 w-24 h-1 bg-[#B2D8B2] rounded md:block hidden"></div> <!-- Underline for md and sm -->
-    </div>
     
-    <p class="text-black font-light text-lg max-w-160 justify-center text-justify mt-5">
+    <h1 class="text-black font-bold text-3xl">
+      Ticket <span class="text-[#009332]">Selection</span>
+    </h1>
+ 
+    <!--kulang underline-->
+    
+    <p class="text-black font-light text-lg lg:max-w-160 justify-center lg:text-justify text-center  mt-3
+     ">
       User-friendly interface for selecting tickets, including options for quantity, pricing details, and provides event-specific options such as date or time selection.
     </p>
 
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-15 mt-5">
-      <div class="w-100 h-28   bg-[#007A2A] "><div><h1 class="text-white font-bold text-xl mx-5 mt-5">Easy Ticket Selection</h1>
-    <p class="text-white font-light text-lg mx-4 mt-1">Select your desired tickets with ease and convenience</p>
-    </div></div>
-    <div class="w-100 h-28   bg-[#007A2A] "><div><h1 class="text-white font-bold text-xl mx-5 mt-5">Event-Specific Option</h1>
-    <p class="text-white font-light text-lg mx-4 mt-1">Customize your ticket experience with flexible options.</p>
-    </div></div>
-    <div class="w-100 h-28   bg-[#007A2A] "><div><h1 class="text-white font-bold text-xl mx-5 mt-5">Transparent Pricing Details</h1>
-    <p class="text-white font-light text-lg mx-4 mt-1">View clear pricing information to make informed ticket purchases</p>
-    </div></div>
-     
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-5 md:mt-2 justify-center  lg:mr-4 lg:mx-0 mx-5">
+      <div class="w-full h-28 bg-[#007A2A] flex flex-col justify-center p-4 rounded-[10px]">
+        <h1 class="text-white font-bold text-xl">Easy Ticket Selection</h1>
+        <p class="text-white font-light text-lg mt-1">Select your desired tickets with ease and convenience</p>
+      </div>
+      <div class="w-full h-28 bg-[#007A2A] flex flex-col justify-center p-4 rounded-[10px]">
+        <h1 class="text-white font-bold text-xl">Event-Specific Option</h1>
+        <p class="text-white font-light text-lg mt-1">Customize your ticket experience with flexible options.</p>
+      </div>
+      <div class="w-full h-28 bg-[#007A2A] flex flex-col justify-center p-4 rounded-[10px]">
+        <h1 class="text-white font-bold text-xl">Transparent Pricing Details</h1>
+        <p class="text-white font-light text-lg mt-1">View clear pricing information to make informed ticket purchases</p>
+      </div>
     </div>
 
   </div>
-  
 </div>
+
+<div class="flex w-full h-30 bg-black mt-8">
+<div>
+<h1 class="text-white text-2xl justify-start mt-8 mx-30">Don't Miss Our Upcoming Events!</h1>
+<p class="text-white text-lg justify-start text-light">Book your tickets today and join the fun!</p>
+</div>  
+</div>
+
+
 
   
  
