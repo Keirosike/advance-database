@@ -4,4 +4,4 @@
 #B2D8B2 - soft white
 npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch
 /public/image/dnscBg.png
-
+ <?php include('../template/footer.php'); ?> 
