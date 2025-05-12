@@ -5,13 +5,14 @@
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title >DNSC Events</title>
           <link rel="stylesheet" href="/src/output.css">
+          <link rel="icon" href="/public/image/dnscLogo.png" class="w-5 h-5" >
       </head>
       <body class="font-primary overflow-x-hidden ">
 
      <?php include('../template/navbar.php')?>
 
 
-      <div class="bg-[linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('/public/image/dnscBg.png')] bg-cover w-full bg-center  bg-no-repeat h-[50vh]  sm:h-[60vh] md:h-[80vh] lg:h-[92.5vh] flex items-center justify-center flex-col  max-w-full ">
+      <div class="bg-[linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('/public/image/dnscBg.png')] bg-cover w-full bg-center  bg-no-repeat h-[50vh]  sm:h-[60vh] md:h-[80vh] lg:h-[92vh] flex items-center justify-center flex-col  max-w-full ">
           <h1 class="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl lg:-mt-20 md:-mt-20 text-center">Welcome to DNSC Events Ticket System</h1>
           <p class="text-white font-extralight sm:text-lg tmd:text-xl lg:text-2xl mt-2 text-center lg:mx-35 md:mx-35 m-1">Book tickets for school events, seminars, and activities all in one place, anytime, anywhere</p>
           <div class="flex items-center justify-center space-x-4 mt-4">
@@ -74,56 +75,89 @@
   </p>
 </div>
 
-<div class="max-w-6xl mx-auto px-4">
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+<div class="max-w-6xl mx-auto px-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-8">
     
     
-    <div class="bg-white rounded-[10px] shadow-md overflow-hidden flex flex-col">
-      <div class="px-4 pt-4 "> 
-        <img class="w-full h-100 object-cover rounded-[10px]" src="/public/image/dnscBg.png" alt="Card Image 1" />
-      </div>
-      <div class="p-4 flex-grow text-left">
-        <h2 class="text-xl font-semibold mb-2">Card Title 1</h2>
-        <p class="text-gray-600 text-sm mb-4">This is a short description for card number one.</p>
-        <div class="flex justify-end">
-          <button class="bg-[#009332] hover:bg-[#007A2A] text-white font-medium py-2 px-4 rounded-[10px] text-sm transition duration-300">
-          Purchase
-          </button>
-        </div>
-      </div>
-    </div>
+  <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden ">
+           <img src="/public/image/dnscBg.png" alt="University Festival" class="w-full h-60 md:h-80 object-cover" loading="lazy">
+            <div class="p-3 md:p-4">
+                        <div class="flex justify-between items-start mb-1 md:mb-2">
+                            <h3 class="font-bold text-base md:text-lg">University Festival</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Upcoming</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-2 md:mb-3">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>Main Campus Ground</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Oct 15, 2023 • 10:00 AM</span>
+                        </div>
+                        <a href="/userPage/eventDetails.php" class="block w-full bg-[#009332] hover:bg-[#007A2A] text-white text-center py-1 md:py-2 rounded-md md:rounded-lg transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+                            View Details
+                        </a>
+                    </div>
+                </div>
 
     
-    <div class="bg-white rounded-[10px] shadow-md overflow-hidden flex flex-col">
-      <div class="px-4 pt-4"> 
-        <img class="w-full h-100 object-cover rounded-[10px]" src="/public/image/dnscBg.png" alt="Card Image 2" />
-      </div>
-      <div class="p-4 flex-grow text-left ">
-        <h2 class="text-xl font-semibold mb-2">Card Title 2</h2>
-        <p class="text-gray-600 text-sm mb-4">This is a short description for card number two.</p>
-        <div class="flex justify-end">
-          <button class="bg-[#009332] hover:bg-[#007A2A] text-white font-medium py-2 px-4 rounded-[10px] text-sm transition duration-300">
-          Purchase
-          </button>
-        </div>
-      </div>
-    </div>
+                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                    <img src="/public/image/event1.jpg" alt="University Festival" class="w-full h-60 md:h-80 object-cover" loading="lazy">
+                    <div class="p-3 md:p-4">
+                        <div class="flex justify-between items-start mb-1 md:mb-2">
+                            <h3 class="font-bold text-base md:text-lg">University Festival</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Upcoming</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-2 md:mb-3">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>Main Campus Ground</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Oct 15, 2023 • 10:00 AM</span>
+                        </div>
+                        <a href="/userPage/eventDetails.php" class="block w-full bg-[#009332] hover:bg-[#007A2A] text-white text-center py-1 md:py-2 rounded-md md:rounded-lg transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+                            View Details
+                        </a>
+                    </div>
+                </div>
 
-   
-    <div class="bg-white rounded-[10px] shadow-md overflow-hidden flex flex-col">
-      <div class="px-4 pt-4   "> 
-        <img class="w-full h-100 object-cover rounded-[10px]" src="/public/image/dnscBg.png" alt="Card Image 3" />
-      </div>
-      <div class="p-4 flex-grow text-left">
-        <h2 class="text-xl font-semibold mb-2">Card Title 3</h2>
-        <p class="text-gray-600 text-sm mb-4">This is a short description for card number three.</p>
-        <div class="flex justify-end">
-          <button class="bg-[#009332] hover:bg-[#007A2A] text-white font-medium py-2 px-4 rounded-[10px] text-sm transition duration-300">
-            Purchase
-          </button>
-        </div>
-      </div>
-    </div>
+                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                    <img src="/public/image/event1.jpg" alt="University Festival" class="w-full h-60 md:h-80 object-cover" loading="lazy">
+                    <div class="p-3 md:p-4">
+                        <div class="flex justify-between items-start mb-1 md:mb-2">
+                            <h3 class="font-bold text-base md:text-lg">University Festival</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Upcoming</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-2 md:mb-3">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>Main Campus Ground</span>
+                        </div>
+                        <div class="flex items-center text-gray-600 text-xs md:text-sm mb-3 md:mb-4">
+                            <svg class="h-3 w-3 md:h-4 md:w-4 mr-1" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>Oct 15, 2023 • 10:00 AM</span>
+                        </div>
+                        <a href="/userPage/eventDetails.php" class="block w-full bg-[#009332] hover:bg-[#007A2A] text-white text-center py-1 md:py-2 rounded-md md:rounded-lg transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+
 
   </div>
 </div>
@@ -202,14 +236,6 @@
 
 
 
-      <script>
-          const hamburgerIcon = document.getElementById('hamburger-icon');
-          const mobileMenu = document.getElementById('mobile-menu');
-
-          hamburgerIcon.addEventListener('click', () => {
-              mobileMenu.classList.toggle('hidden');
-          });
-      </script>
 
       </body>
       </html>
