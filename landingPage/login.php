@@ -6,38 +6,32 @@ require_once('functionLanding.php');
     $message = "";
     $successLog = false;
     $failedLog = false;
-    $messageFailed = "";
+
 
 
     if($_SERVER['REQUEST_METHOD'] ==='POST'){
         $email = $_POST['email'];
         $password = $_POST['password'];
-     
 
-        if($email != $password){
-            $successLog = false;
+        if(empty($email) || empty($password)){
+            $message = "Please fill in all fields.";
             $failedLog = true;
-            $message = "Bugoooo tarongag type";
-           
-        }
-        $users = new User($conn);
-        $userAuth = $users->login($email, $password);
 
-        if($userAuth){
-            $_SESSION['user'] = $userAuth;
+        }else{
+            $user = new user($conn);
+            $userAuth = $user->login($email, $password);
 
-            if($userAuth['role']=== 'user'){
-                $fname = $userAuth['firstName'];
-                $failedLog = false;
+            if($userAuth){
+                $_SESSION['user'] = $userAuth;
+                $fname = $userAuth['first_name'];
                 $successLog = true;
                 $message = $fname;
-
+                
             }else{
-                $fname = $userAuth['firstName'];
-                $failedLog = false;
-                $successLog=true;
-                $message = $fname;
+                $failedLog = true;
+                $message = 'Invalid email or password.';
             }
+     
 
         }
         

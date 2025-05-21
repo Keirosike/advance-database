@@ -10,7 +10,7 @@ class user{
         try{
            
 
-            $stmt = $this->conn->prepare("INSERT INTO user (firstName, lastName, email, password) VALUES (:fName, :lName, :email, :password)");
+            $stmt = $this->conn->prepare("INSERT INTO user (first_name, last_name, email, password) VALUES (:fName, :lName, :email, :password)");
             $stmt->bindParam(':fName', $fname);
             $stmt->bindParam(':lName', $lname);
             $stmt->bindParam(':email', $email);
@@ -60,6 +60,7 @@ class user{
             $stmt->execute();
             if($stmt->rowCount()>0){
                 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+                error_log("Admin found: ".print_r($admin, true)); 
                 $admin['role'] = 'admin';
                 return $admin;
                 
@@ -73,11 +74,7 @@ class user{
     }
 
 
-
-    
 }
-  
-
 
 
     ?>

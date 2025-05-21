@@ -1,5 +1,7 @@
 
-<?php if($successLog): ?>
+
+<?php if(isset($successEditEvent) && $successEditEvent): ?>
+
     <!-- Success Modal -->
     <div id="successModal" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 animate-fadeIn">
         <div class="bg-white rounded-xl w-11/12 max-w-md p-6 shadow-xl transform transition-all duration-300 scale-95 animate-scaleIn">
@@ -13,34 +15,36 @@
                 </div>
                 
                 <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
-                    Login <span class="text-[#10B484]">Successful</span>!
+                    Event edited <span class="text-[#10B484]">successfully</span>!
                 </h1>
-                <p class="text-gray-600 text-center">
-                    Welcome <?php echo isset($message) ? '<span class="text-[#10b484] font-medium">'.$message.'</span>' : '';?>!
-                </p>
+              
                 
                 <!-- Loading/progress bar -->
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-6">
-                    <div class="bg-[#10B484] h-1.5 rounded-full animate-progressBar"></div>
-                </div>
+              
             </div>
         </div>
     </div>
 
     <script>
-        setTimeout(function() {
-             const userRole = "<?php echo $_SESSION['user']['role'] ?? ''; ?>";
-        if(userRole === "admin"){
-            window.location.href = '../admin/dashboardAdmin.php';
-        } else {
-            window.location.href = '../userPage/dashboardUser.php';
-        }
-    }, 3000);
+          setTimeout(function() {
+        
+                    window.location.href = '../admin/event.php';
+                }, 1500);   
+
+
+                function closeModal() {
+                    document.getElementById('successModal').classList.add('hidden');
+                }
+
+
     </script>
 
-<?php elseif($failedLog): ?>
+       <?php endif;?>
+
+<?php if(isset($failedEditEvent) && $failedEditEvent): ?>
+
     <!-- Failure Modal -->
-    <div id="errorModal" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 animate-fadeIn">
+    <div id="failedModal" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 animate-fadeIn">
         <div class="bg-white rounded-xl w-11/12 max-w-md p-6 shadow-xl transform transition-all duration-300 scale-95 animate-scaleIn">
             <div class="flex flex-col items-center">
                 <!-- Animated X mark -->
@@ -50,22 +54,27 @@
                 </div>
                 
                 <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
-                    Login <span class="text-[#e2382f]">Failed</span>!
+                     <span class="text-[#e2382f]">Failed</span> to edit event.
                 </h1>
                 <p class="text-[#e2382f] text-center font-medium"><?php echo htmlspecialchars($message); ?></p>
                 
-                <!-- Loading/progress bar -->
-                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-6">
-                    <div class="bg-[#e2382f] h-1.5 rounded-full animate-progressBar"></div>
-                </div>
+             
             </div>
         </div>
     </div>
 
     <script>
-        setTimeout(function() {
-            window.location.href = 'login.php';
-        }, 3000);
+      setTimeout(function() {
+            window.location.href = '../admin/event.php';
+        }, 1500);   
+            
+                function closeModal() {
+                    document.getElementById('failedModal').classList.add('hidden');
+                }
+        </script>
+
+        </script>
+
     </script>
 <?php endif; ?>
 

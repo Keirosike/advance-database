@@ -1,20 +1,32 @@
-<!--registration -->
-<?php if(($success) && $success):?>
-    <div id="successModal" class="bg-[rgba(0,0,0,0.4)] w-screen h-screen fixed top-0  z-50 flex justify-center pt-40">
-        <div class="bg-white rounded-[10px] w-[20.75rem] h-[12.75rem] items-center flex flex-col relative">
-            
-         
-
-            <img src="/public/image/check.png" alt="Check" class="mt-8">
-            <h1 class="font-bold text-2xl text-gray-900 mx-10 text-center mt-2">
-                Registration <span class="text-[#10B484]">Successful</span>!
-            </h1>
+<!-- Login Status Modals -->
+<?php if(($success)&& $success): ?>
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 animate-fadeIn">
+        <div class="bg-white rounded-xl w-11/12 max-w-md p-6 shadow-xl transform transition-all duration-300 scale-95 animate-scaleIn">
+            <div class="flex flex-col items-center">
+                <!-- Animated checkmark -->
+                <div class="w-24 h-24 mb-4 flex items-center justify-center">
+                    <svg class="checkmark animate-drawCheck" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#10B484" stroke-width="2"/>
+                        <path class="checkmark-check" fill="none" stroke="#10B484" stroke-width="4" stroke-linecap="round" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                
+                <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
+                    Registration <span class="text-[#10B484]">Successful</span>!
+                </h1>
+                
+                
+                <!-- Loading/progress bar -->
+                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-6">
+                    <div class="bg-[#10B484] h-1.5 rounded-full animate-progressBar"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-
-           setTimeout(function() {
+          setTimeout(function() {
         window.location.href = 'login.php';
     }, 3000);   
            
@@ -22,37 +34,96 @@
                 document.getElementById('successModal').classList.add('hidden');
             }
     </script>
-<?php endif;?>
 
-<!--registration failed -->
-
-<?php if(($failed) && $failed):?>
-    <div id="successModal" class="bg-[rgba(0,0,0,0.4)] w-screen h-screen fixed top-0  z-50 flex justify-center pt-40">
-        <div class="bg-white rounded-[10px] w-[20.75rem] h-[12.75rem] items-center flex flex-col relative">
-      
-
-            <img src="/public/image/x.png" alt="Check" class="mt-8">
-            <h1 class="font-bold text-2xl text-gray-900 mx-10 text-center mt-2">
-                Registration <span class="text-[#e2382f]">Failed</span>!
-            </h1>
-            <p class="text-[#e2382f] text-center text-md pt-1 font-light"><?php echo($message)?></p>
+<?php elseif(($failed) && $failed): ?>
+    <!-- Failure Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 animate-fadeIn">
+        <div class="bg-white rounded-xl w-11/12 max-w-md p-6 shadow-xl transform transition-all duration-300 scale-95 animate-scaleIn">
+            <div class="flex flex-col items-center">
+                <!-- Animated X mark -->
+                <div class="w-20 h-20 mb-4 flex items-center justify-center relative">
+                    <div class="absolute w-full h-1 bg-[#e2382f] transform rotate-45 rounded-full animate-drawXFirst"></div>
+                    <div class="absolute w-full h-1 bg-[#e2382f] transform -rotate-45 rounded-full animate-drawXSecond"></div>
+                </div>
+                
+                <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
+                    Registration <span class="text-[#e2382f]">Failed</span>!
+                </h1>
+                <p class="text-[#e2382f] text-center font-medium"><?php echo htmlspecialchars($message); ?></p>
+                
+                <!-- Loading/progress bar -->
+                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-6">
+                    <div class="bg-[#e2382f] h-1.5 rounded-full animate-progressBar"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-
-
-
     <script>
-
-           setTimeout(function() {
-        window.location.href = 'signup.php';
-    }, 3000);   
-           
-            function closeModal() {
-                document.getElementById('successModal').classList.add('hidden');
-            }
+        setTimeout(function() {
+            window.location.href = 'signup.php';
+        }, 3000);
     </script>
-<?php endif;?>
+<?php endif; ?>
 
-
-
+<style>
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+        from { transform: scale(0.95); }
+        to { transform: scale(1); }
+    }
+    @keyframes progressBar {
+        from { width: 0%; }
+        to { width: 100%; }
+    }
+    @keyframes drawCheck {
+        0% { stroke-dashoffset: 100; }
+        100% { stroke-dashoffset: 0; }
+    }
+    @keyframes drawXFirst {
+        0% { transform: scaleX(0) rotate(45deg); }
+        100% { transform: scaleX(1) rotate(45deg); }
+    }
+    @keyframes drawXSecond {
+        0% { transform: scaleX(0) rotate(-45deg); }
+        100% { transform: scaleX(1) rotate(-45deg); }
+    }
+    
+    .animate-fadeIn {
+        animation: fadeIn 0.3s forwards;
+    }
+    .animate-scaleIn {
+        animation: scaleIn 0.3s forwards;
+    }
+    .animate-progressBar {
+        animation: progressBar 2.8s linear forwards;
+    }
+    .animate-drawCheck {
+        animation: drawCheck 0.8s ease-in-out forwards;
+    }
+    .animate-drawXFirst {
+        animation: drawXFirst 0.4s ease-out forwards;
+    }
+    .animate-drawXSecond {
+        animation: drawXSecond 0.4s ease-out forwards;
+        animation-delay: 0.2s;
+    }
+    
+    /* Checkmark styles */
+    .checkmark-circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        animation: drawCheck 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        animation-delay: 0.3s;
+    }
+    .checkmark-check {
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: drawCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        animation-delay: 0.8s;
+    }
+</style>

@@ -1,8 +1,8 @@
-<div class="bg-[rgba(0,0,0,0.4)] w-screen h-screen flex items-center justify-center fixed top-0 left-0 z-50">
-    <div class="bg-white w-[32.5rem] max-h-[90vh] rounded-md shadow-lg p-4 relative overflow-y-auto" id="createEvent">
+<div class="hidden bg-[rgba(0,0,0,0.4)] w-screen h-screen flex items-center justify-center fixed top-0 left-0 z-50"  id="createEventModal">
+    <div class="bg-white w-[32.5rem] max-h-[90vh] rounded-md shadow-lg p-4 relative overflow-y-auto">
 
 
-        <div class="sticky top-0 bg-white z-10 pb-4">
+        <div class=" pb-4">
             <div class="w-full border-b border-gray-200 flex items-center justify-between p-4">
                 <h1 class="text-2xl text-gray-900 font-bold">Create <span class="text-[#009332]">Event</span></h1>
                 <button onclick="closeModal()" type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none cursor-pointer">
@@ -14,6 +14,7 @@
         </div>
 
         <form action="" method="POST" class="p-6 space-y-4" enctype="multipart/form-data">
+                <input type="hidden" name="eventId" id="eventId" value="">
             
         <!-- event image upload -->
             <div class="space-y-2">
@@ -24,11 +25,11 @@
                 <div class="flex items-center justify-center w-full">
               
                 
-                <label for="eventImage" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                <label for="eventImage" class="flex flex-col items-center justify-center w-40 h-8 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 pt-2  ">
+                        <div class="flex flex-col items-center justify-center">
                            
-                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500">PNG, JPG (MAX. 5MB)</p>
+                            <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> </p>
+                           
                         </div>
                         <input id="eventImage" name="eventImage" type="file" class="hidden" accept="image/*" required />
                     </label>
@@ -64,21 +65,21 @@
                     >
                 </div>
                 <div class="space-y-2">
-                    <label for="eventTime" class="block text-sm font-medium text-gray-700">Start Time*</label>
+                    <label for="eventstartTime" class="block text-sm font-medium text-gray-700">Start Time*</label>
                     <input 
                         type="time" 
-                        id="eventTime" 
-                        name="eventTime"
+                        id="eventstartTime" 
+                        name="eventstartTime"
                         class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009332] focus:border-transparent"
                         required
                     >
                 </div>
                 <div class="space-y-2">
-                    <label for="eventTime" class="block text-sm font-medium text-gray-700">End Time*</label>
+                    <label for="eventendTime" class="block text-sm font-medium text-gray-700">End Time*</label>
                     <input 
                         type="time" 
-                        id="eventTime" 
-                        name="eventTime"
+                        id="eventendTime" 
+                        name="eventendTime"
                         class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009332] focus:border-transparent"
                         required
                     >
@@ -95,12 +96,12 @@
                     required
                 >
                     <option value="" disabled selected>Select event type</option>
-                    <option value="meeting">Theatre</option>
-                    <option value="conference">Movie</option>
-                    <option value="workshop">Sing and Dance</option>
-                    <option value="social">Sports</option>
-                    <option value="other">Conference</option>
-                    <option value="other">Meeting</option>
+                    <option value="Theatre">Theatre</option>
+                    <option value="Movie">Movie</option>
+                    <option value="Sing and Dance">Sing and Dance</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Conference">Conference</option>
                 </select>
             </div>
 
@@ -109,23 +110,23 @@
                 <label for="eventLocation" class="block text-sm font-medium text-gray-700">Where*</label>
                 <div class="flex space-x-2">
                     <select 
-                        id="eventLocationType" 
-                        name="eventLocationType"
+                        id="eventLocation" 
+                        name="eventLocation"
                         class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009332] focus:border-transparent"
                         required>
                     <option value="" disabled selected>Select event location</option>
-                    <option value="meeting">DNSC Sports Complex</option>
-                    <option value="conference">DNSC Gymnasium</option>
-                    <option value="workshop">DNSC Covered Court</option>
-                    <option value="social">DNSC AB 3-4</option>
-                    <option value="other">DNSC Music Room</option>
+                    <option value="DNSC Sports Complex">DNSC Sports Complex</option>
+                    <option value="DNSC Gymnasium">DNSC Gymnasium</option>
+                    <option value="DNSC Covered Court">DNSC Covered Court</option>
+                    <option value="DNSC AB 3-4">DNSC AB 3-4</option>
+                    <option value="DNSC Music Room">DNSC Music Room</option>
                     </select>
                   
                 </div>
             </div>
            
             
-            <!-- Event Description -->
+            <!-- event Description -->
             <div class="space-y-2">
                 <label for="eventDescription" class="block text-sm font-medium text-gray-700">Description</label>
                 <textarea 
@@ -134,7 +135,7 @@
                     rows="4" 
                     placeholder="Enter event description" 
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009332] focus:border-transparent"
-                ></textarea>
+                ></textarea>    
             </div>
 
             <div class="border border-gray-300 rounded-lg p-4 space-y-4">
@@ -144,8 +145,8 @@
                     <label for="ticketPrice" class="block text-sm font-medium text-gray-700">Price (₱)*</label>
                     <input 
                         type="number" 
-                        id="ticketAmount" 
-                        name="ticketAmount"
+                        id="ticketPrice" 
+                        name="ticketPrice"
                         class="w-full h-10 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#009332] focus:border-transparent"
                         required
                     >
@@ -165,10 +166,10 @@
             
             
             <!-- Submit Button -->
-            <div class="sticky bottom-0 bg-white pt-4 pb-2">
+            <div class=" pt-4 pb-2">
                 <button 
                     type="submit" 
-                    class="w-full bg-[#009332] text-white py-3 px-4 rounded-md hover:bg-[#007a29] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2 cursor-pointer"
+                    class="w-full bg-[#009332] text-white py-3 px-4 rounded-md hover:bg-[#007a2a] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2 cursor-pointer" name="createEventBtn"
                 >
                     Create Event
                 </button>
@@ -178,9 +179,7 @@
 </div>
 
 <script>
-function closeModal() {
-    document.getElementById('createEvent').classList.add('hidden');
-}
+
 
 // Image preview functionality
 const eventImage = document.getElementById('eventImage');
@@ -201,5 +200,9 @@ eventImage.addEventListener('change', function(e) {
     }
 });
 
+function closeModal() {
+    document.getElementById('createEventModal').classList.add('hidden');
+}
 
-</script>
+
+</script> 
