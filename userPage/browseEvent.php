@@ -19,7 +19,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DNSC Events</title>
-        <link rel="icon" href="/public/image/dnscLogo.png" class="w-5 h-5" 
+        <link rel="icon" href="/public/image/dnscLogo.png"
         type="image/x-icon" />
         <link rel="stylesheet" href="/src/output.css">
     </head>

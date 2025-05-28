@@ -310,11 +310,7 @@
                     if (currentEventId) {
                         // Perform delete action here
                         console.log('Deleting event with ID:', currentEventId);
-                        // Example fetch request:
-                        // fetch(`/admin/events/${currentEventId}`, { method: 'DELETE' })
-                        //     .then(response => location.reload())
-                        
-                        // For demo purposes:
+                   
                         alert(`Event ${currentEventId} would be deleted in a real application`);
                         closeDeleteModal();
                     }

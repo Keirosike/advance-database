@@ -69,9 +69,12 @@
                                         </div>
                                         
                                         <div class="mt-6">
-                                            <button class="w-full bg-[#009332] hover:bg-[#007A2A] text-white py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2 cursor-pointer">
-                                                Get Tickets
-                                            </button>
+                                            <form action="../transaction/ticketPurchase.php" method="POST">
+                    <input type="hidden" name="event_id" id="modal-event-id">
+                    <button type="submit" class="w-full bg-[#009332] hover:bg-[#007A2A] text-white py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+        Buy Ticket
+    </button>
+</form>
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +93,8 @@
 
     viewDetailsButtons.forEach(button => {
         button.addEventListener('click', function() {
-           
+          
+            const eventId = this.getAttribute('data-event-id');
             const eventName = this.getAttribute('data-event-name');
             const eventType = this.getAttribute('data-event-type');
             const eventLocation = this.getAttribute('data-event-location');
@@ -100,6 +104,8 @@
             const ticketPrice = this.getAttribute('data-ticket-price');
             const description = this.getAttribute('data-description');
             const eventImage = this.getAttribute('data-event-image');
+               document.getElementById('modal-event-id').value = eventId;
+          
 
             // Fill modal content
             document.getElementById('modal-event-name').textContent = eventName;

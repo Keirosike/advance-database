@@ -8,7 +8,20 @@ include('../userPage/userFunction.php');
 $user = new user($conn);
 $events = $user->showEventInDashboard();
 
+$user_id = $_SESSION['user']['user_id'];
 
+// Fetch first name from DB
+try {
+    $stmt = $conn->prepare("SELECT first_name FROM user WHERE user_id = ?");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $first_name = $user ? $user['first_name'] : 'User';
+
+} catch (PDOException $e) {
+ 
+    $first_name = 'User';
+}
 
 
 ?>    
@@ -90,7 +103,7 @@ $events = $user->showEventInDashboard();
         <div class="flex-1 p-4 md:p-6 lg:p-8">
             <!-- Welcome Header -->
             <div class="mb-6 md:mb-8">
-                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, <span class="text-[#009332]">User</span>!</h1>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Welcome back, <span class="text-[#009332]"> <?php echo htmlspecialchars($first_name); ?></span>!</h1>
                 <p class="text-gray-600">Here's what's happening with your events today</p>
 </div>
 

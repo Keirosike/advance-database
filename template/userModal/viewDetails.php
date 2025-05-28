@@ -69,9 +69,14 @@
                                         </div>
                                         
                                         <div class="mt-6">
-                                            <button class="w-full bg-[#009332] hover:bg-[#007A2A] text-white py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2 cursor-pointer">
-                                                Buy Ticket
-                                            </button>
+
+                                            <form action="../transaction/ticketPurchase.php" method="POST">
+                    <input type="hidden" name="event_id" id="modal-event-id">
+                    <button type="submit" class="w-full bg-[#009332] hover:bg-[#007A2A] text-white py-2 px-4 rounded-md transition focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+        Buy Ticket
+    </button>
+</form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -91,6 +96,9 @@
                 button.addEventListener('click', function() {
                     const eventId = this.getAttribute('data-event-id');
                     const eventCard = this.closest('.event-card');
+                    
+
+                    document.getElementById('modal-event-id').value = eventId;
                     
                     // Extract data from the card
                     const eventName = eventCard.querySelector('h3').textContent;
@@ -119,6 +127,22 @@
                     document.getElementById('modal-ticket-price').textContent = 'Price: ' + ticketPrice;
                     document.getElementById('modal-event-image').src = eventImage;
                     document.getElementById('modal-event-description').textContent = description || 'No description available.';
+
+                    const buyBtn = document.querySelector('#view-details-modal button[type="submit"]');
+            const now = new Date();
+            const eventDateTime = new Date(`${eventDate} ${startTime || eventTime}`);
+
+            if (eventDateTime < now) {
+                buyBtn.disabled = true;
+                buyBtn.textContent = "Ticket Unavailable";
+                buyBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+                buyBtn.classList.remove("bg-[#009332]", "hover:bg-[#007A2A]");
+            } else {
+                buyBtn.disabled = false;
+                buyBtn.textContent = "Buy Ticket";
+                buyBtn.classList.add("bg-[#009332]", "hover:bg-[#007A2A]");
+                buyBtn.classList.remove("bg-gray-400", "cursor-not-allowed");
+            }
                     
                     // Show the modal
                     document.getElementById('view-details-modal').classList.remove('hidden');
@@ -132,4 +156,9 @@
                 }
             });
         });
+        
+
+
+
+
     </script>
