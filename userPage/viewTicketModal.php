@@ -1,5 +1,5 @@
 
-<div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden hidden bg-[rgba(0,0,0,0.5)] transition-opacity duration-300" id="ticketModal">
+<div id="ticket-modal" class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden hidden bg-[rgba(0,0,0,0.5)] transition-opacity duration-300" id="ticketModal">
   <div class="relative mx-4 w-full max-w-md transform rounded-lg bg-white p-6 shadow-2xl transition-all duration-300 ease-in-out" id="modalContent">
     <!-- Close button -->
     <button class="absolute right-4 top-4 rounded-full p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none" id="closeModal">
@@ -19,8 +19,8 @@
       <!-- Event details -->
       <div class="flex-1 space-y-4">
         <div>
-          <h3 class="text-xl font-semibold text-gray-800">University Festival 2023</h3>
-          <p class="text-sm text-gray-500">General Admission</p>
+          <h3 class="text-xl font-semibold text-gray-800" id="eventName"></h3>
+          <p class="text-sm text-gray-500" id="ticketType"></p>
         </div>
         <div class="space-y-3 text-gray-600">
           <div class="flex items-center">
@@ -28,8 +28,8 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <div>
-              <p class="font-medium">Oct 15, 2023</p>
-              <p class="text-sm text-gray-500">Sunday</p>
+              <p class="font-medium" id="eventDate">Oct 15, 2023</p>
+              <p class="text-sm text-gray-500" id="eventDay">Sunday</p>
             </div>
           </div>
           <div class="flex items-center">
@@ -37,7 +37,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div>
-              <p class="font-medium">10:00 AM - 6:00 PM</p>
+            <p class="font-medium" id="eventTime"></p>
             </div>
           </div>
           <div class="flex items-center">
@@ -46,7 +46,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <div>
-              <p class="font-medium">Main Campus Ground</p>
+              <p class="font-medium" id="eventLocation"></p>
               <p class="text-sm text-gray-500">Davao del Norte State College</p>
             </div>
           </div>
@@ -55,7 +55,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <div>
-              <p class="font-medium">Ticket Holder: <span class="font-normal">John Doe</span></p>
+              <p class="font-medium" >Ticket Holder: <span class="font-normal" id="ticketHolder"></span></p>
              
             </div>
           </div>
@@ -67,7 +67,7 @@
         <div class="flex h-48 w-48 items-center justify-center rounded bg-gray-100 p-2" id="qrCodeContainer">
           <!-- QR code will be inserted here -->
           <div class="flex h-full w-full items-center justify-center bg-white">
-            <p class="text-center text-sm text-gray-500">QR Code Placeholder</p>
+     <img id="qrCodeImage" src="" alt="QR Code" class="h-full w-full object-contain" />
           </div>
         </div>
         <p class="text-xs font-medium text-gray-500">Scan this code at entry</p>
@@ -81,8 +81,8 @@
     <!-- Footer -->
     <div class="mt-6 flex flex-col space-y-3 border-t pt-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
       <div>
-        <p class="text-sm text-gray-500">Ticket #: TKT-UNIV-789456</p>
-        <p class="text-xs text-gray-400">Issued: Oct 1, 2023</p>
+        <p class="text-sm text-gray-500" id="ticketNumber"></p>
+        <p class="text-xs text-gray-400" id="issueDate"></p>
       </div>
       <div class="flex space-x-2">
         <button class="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
@@ -103,50 +103,47 @@
 
 <!-- JavaScript to handle the modal -->
 <script>
-  // Get elements
-  const modal = document.getElementById('ticketModal');
-  const modalContent = document.getElementById('modalContent');
-  const closeBtn = document.getElementById('closeModal');
-  
-  // Function to open modal with animation
-  function openTicketModal() {
-    modal.classList.remove('hidden', 'opacity-0');
-    modal.classList.add('flex', 'opacity-100');
-    modalContent.classList.remove('scale-95', 'opacity-0');
-    modalContent.classList.add('scale-100', 'opacity-100');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  }
-  
-  // Function to close modal with animation
-  function closeModal() {
-    modalContent.classList.remove('scale-100', 'opacity-100');
-    modalContent.classList.add('scale-95', 'opacity-0');
-    
-    setTimeout(() => {
-      modal.classList.remove('flex', 'opacity-100');
-      modal.classList.add('hidden', 'opacity-0');
-      document.body.style.overflow = ''; // Re-enable scrolling
-    }, 200);
-  }
-  
-  // Close when clicking X
-  closeBtn.addEventListener('click', closeModal);
-  
-  // Close when clicking outside
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-  
-  // Close with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-      closeModal();
-    }
-  });
-  
-  
-  // Add click event to your "View Ticket" button (make sure it has the correct ID/class)
-  document.querySelectorAll('[data-ticket-button]').forEach(button => {
-    button.addEventListener('click', openTicketModal);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const ticketButtons = document.querySelectorAll('[data-ticket-button]');
+    const modal = document.getElementById('ticket-modal');
+    const closeModalBtn = modal.querySelector('#closeModal');
+
+    ticketButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Populate modal content from button data
+        modal.querySelector('#eventName').textContent = button.dataset.event;
+        modal.querySelector('#ticketType').textContent = "General Admission"; // update if dynamic
+        modal.querySelector('#eventDate').textContent = button.dataset.date;
+        modal.querySelector('#eventDay').textContent = button.dataset.day;
+        modal.querySelector('#eventTime').textContent = button.dataset.time;
+        modal.querySelector('#eventLocation').textContent = button.dataset.location;
+        modal.querySelector('#ticketHolder').textContent = button.dataset.holder;
+        modal.querySelector('#ticketNumber').textContent = button.dataset.ticketNumber;
+        modal.querySelector('#issueDate').textContent = button.dataset.issueDate;
+         const qrCodeImage = modal.querySelector('#qrCodeImage');
+  qrCodeImage.src = `../qrCode/qrConverter.php?text=${encodeURIComponent(button.dataset.ticketNumber)}`;
+
+        // Show modal
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+    });
+
+    // Close modal
+    closeModalBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    // Close when clicking outside modal content
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
   });
 </script>
+
+

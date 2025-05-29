@@ -99,7 +99,14 @@ $tickets = $user->myTicket($user_id);
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-2">
-                        <button class="cursor-pointer px-3 py-1.5 bg-[#009332] hover:bg-[#007A2A] text-white text-sm rounded-md transition flex items-center justify-center" data-ticket-button>
+                        <button class="cursor-pointer px-3 py-1.5 bg-[#009332] hover:bg-[#007A2A] text-white text-sm rounded-md transition flex items-center justify-center" data-ticket-button data-event="<?= htmlspecialchars($ticket['event_name']) ?>"
+    data-date="<?= $ticket['event_date'] ?>"
+    data-day="<?= date('l', strtotime($ticket['event_date'])) ?>"
+    data-time="<?= date('g:i A', strtotime($ticket['event_start_time'])) . ' - ' . date('g:i A', strtotime($ticket['event_end_time'])) ?>"
+    data-location="<?= htmlspecialchars($ticket['event_location']) ?>"
+    data-holder="<?= htmlspecialchars($ticket['full_name']) ?>"
+    data-ticket-number="<?= htmlspecialchars($ticket['ticket_code']) ?>"
+    data-issue-date="<?= date('M j, Y', strtotime($ticket['order_date'])) ?>">
                             <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                             </svg>
@@ -120,6 +127,8 @@ $tickets = $user->myTicket($user_id);
     <p class="text-gray-600">No tickets found.</p>
 <?php endif; ?>
 </div>
+
+<?php include ("./viewTicketModal.php");?>  
 
     </div>   
  </div>
