@@ -59,6 +59,36 @@ public function getUserByID($userId){
         return false;
     }
 }
+
+
+
+public function myTicket($userId) {
+    try {
+        $stmt = $this->conn->prepare("
+            SELECT 
+                tp.*, 
+                e.event_name, 
+                e.event_location, 
+                e.event_date, 
+                e.event_start_time,
+                e.event_end_time,  -- added comma here
+                CONCAT(u.first_name, ' ', u.last_name) AS full_name,  
+                u.email AS user_email
+            FROM ticket_purchase tp
+            INNER JOIN events e ON tp.event_id = e.event_id
+            INNER JOIN user u ON tp.user_id = u.user_id
+            WHERE tp.user_id = :userId
+            ORDER BY tp.order_date DESC
+        ");
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch(PDOException $e) {
+        error_log("Database error in myTicket: " . $e->getMessage());
+        return false;
+    }
 }
 
+
+}
 ?>

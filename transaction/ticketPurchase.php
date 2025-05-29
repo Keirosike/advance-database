@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['event_id']) && !isset
 
     try {
         $stmt = $conn->prepare("SELECT * FROM events WHERE event_id = ?");
-        $stmt->execute([$event_id]);
+        $stmt->execute([$event_id]);    
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($event) {
@@ -57,9 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmPurchaseBtn'])
 
     $event_id = $selected_event['event_id'];
     $price_per_ticket = $selected_event['ticket_price'];
-
+    $payment_method = $_POST['payment_method'] ?? 'GCash';
+ 
     $transaction = new Transaction($conn);
-    $success = $transaction->purchaseTicket($user_id, $event_id, $quantity, $price_per_ticket);
+    $success = $transaction->purchaseTicket($user_id, $event_id, $quantity, $price_per_ticket, $payment_method);
 
     if ($success) {
        $successTransaction=true;
@@ -208,20 +209,20 @@ $selected_event = $_SESSION['selected_event'] ?? null;
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- GCash Payment Instructions -->
-                    <div id="gcash-instructions" class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-mobile-alt text-blue-400 mt-1"></i>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-blue-700">
-                                    <strong>GCash Payment Instructions:</strong> After reservation, you will receive payment details via SMS/Email. Complete payment within 24 hours to confirm your tickets.
-                                </p>
+                        <div id="gcash-instructions" class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-mobile-alt text-blue-400 mt-1"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-blue-700">
+                                        <strong>GCash Payment Instructions:</strong> After reservation, you will receive payment details via SMS/Email. Complete payment within 24 hours to confirm your tickets.
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     
                     <form action="" method="POST">
                         <?php if ($selected_event): ?>
@@ -229,6 +230,7 @@ $selected_event = $_SESSION['selected_event'] ?? null;
                         <?php endif; ?>
                         <input type="hidden" name="ticket_quantity" id="form_quantity" value="0">
                         <input type="hidden" name="total_amount" id="form_total" value="0">
+                        <input type="hidden" name="payment_method" value="GCash">
                         
                         <button type="button" id="checkout-btn" onclick="openConfirmPurchaseModal(<?php echo $selected_event['event_id']; ?>)" class="w-full bg-[#009332] hover:bg-[#007A2A] text-white py-3 px-4 rounded-md transition focus:outline-none focus:ring-2 cursor-pointer font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                             Buy Ticket

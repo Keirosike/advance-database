@@ -19,7 +19,7 @@
                 </div>
                 
                 <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
-                    Event edited <span class="text-[#10B484]">successfully</span>!
+                    Ticket purchased <span class="text-[#10B484]">successfully</span>!
                 </h1>
                 
                 <!-- Close button -->
@@ -61,7 +61,7 @@
                 </div>
                 
                 <h1 class="text-2xl font-bold text-gray-900 text-center mb-1">
-                    <span class="text-[#e2382f]">Failed</span> to edit event.
+                    <span class="text-[#e2382f]">Failed</span> to buy ticket.
                 </h1>
                 <p class="text-[#e2382f] text-center font-medium"><?php echo htmlspecialchars($message); ?></p>
                 

@@ -52,9 +52,14 @@
                     </div>
                     
                     <!-- Search -->
-                    <div class="relative w-full md:w-64">
-                        <input type="text" placeholder="Search purchases..." class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#009332]">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    <div class="w-full md:w-64">
+                        <label for="search" class="sr-only">Search events</label>
+                        <div class="relative">
+                            <input type="text" id="search" placeholder="Search events..." class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#009332]">
+                            <svg class="absolute left-3 top-2.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
