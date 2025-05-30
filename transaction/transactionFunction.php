@@ -29,4 +29,5 @@ public function purchaseTicket( $user_id, $event_id, $quantity, $price_per_ticke
 }
 
 }
+
 ?>

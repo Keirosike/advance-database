@@ -1,30 +1,34 @@
-<?php
-session_start();
+    <?php
+    session_start();
 
-include('../database/conn.php');
-include('../userPage/userFunction.php');
-
-
-$user = new user($conn);
-$events = $user->showEventInDashboard();
-
-$user_id = $_SESSION['user']['user_id'];
-
-// Fetch first name from DB
-try {
-    $stmt = $conn->prepare("SELECT first_name FROM user WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    $first_name = $user ? $user['first_name'] : 'User';
-
-} catch (PDOException $e) {
- 
-    $first_name = 'User';
-}
+    include('../database/conn.php');
+    include('../userPage/userFunction.php');
 
 
-?>    
+    $user = new user($conn);
+    $events = $user->showEventInDashboard();
+
+    $user_id = $_SESSION['user']['user_id'];
+
+    $first_name = $user->showFirstName();
+
+    $page = 1; // Static page since you only want to show 3
+    $itemsPerPage = 3; // LIMIT to 3 items only
+
+    $purchaseData = $user->purchase_history($user_id, $page, $itemsPerPage);
+    $recentPurchases = $purchaseData['history'];
+    $totalPurchases = $purchaseData['total'];
+    
+    
+    $totalTickets = $user->countTicketPurchases($user_id);
+
+    $totalSpent = $user->sumTotalSpent($user_id);
+
+    $eventsAttended = $user->countEventsAttended($user_id);
+
+    $pendingPayments = $user->sumPendingPayments($user_id);
+
+    ?>    
     
     
     <!DOCTYPE html>
@@ -113,7 +117,7 @@ try {
         <div class="flex items-start justify-between">
             <div>
                 <h3 class="text-gray-500 text-sm font-medium mb-1">Ticket Purchases</h3>
-                <p class="text-2xl font-bold text-indigo-600">24</p>
+                <p class="text-2xl font-bold text-indigo-600"><?= $totalTickets ?></p>
                 <p class="text-xs text-gray-400 mt-2 flex items-center">
                
                    
@@ -132,7 +136,7 @@ try {
         <div class="flex items-start justify-between">
             <div>
                 <h3 class="text-gray-500 text-sm font-medium mb-1">Total Spent</h3>
-                <p class="text-2xl font-bold text-rose-600">$1,845</p>
+                <p class="text-2xl font-bold text-rose-600">₱<?= number_format($totalSpent, 2) ?></p>
                 <p class="text-xs text-gray-400 mt-2 flex items-center">
                  
               
@@ -151,7 +155,7 @@ try {
         <div class="flex items-start justify-between">
             <div>
                 <h3 class="text-gray-500 text-sm font-medium mb-1">Events Attended</h3>
-                <p class="text-2xl font-bold text-emerald-600">18</p>
+                <p class="text-2xl font-bold text-emerald-600"><?= $eventsAttended ?></p>
                 <p class="text-xs text-gray-400 mt-2 fle`x items-center">
                    
           
@@ -170,7 +174,7 @@ try {
         <div class="flex items-start justify-between">
             <div>
                 <h3 class="text-gray-500 text-sm font-medium mb-1">Pending Payments</h3>
-                <p class="text-2xl font-bold text-amber-600">$420</p>
+                <p class="text-2xl font-bold text-amber-600">₱<?= number_format($pendingPayments, 2) ?></p>
                 <p class="text-xs text-gray-400 mt-2 flex items-center">
                   
                
@@ -243,35 +247,35 @@ try {
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">University Foundation Day</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">May 25, 2023</td>
-                
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱150.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Research Colloquium</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 2, 2023</td>
-                
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱50.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Sports Fest Opening</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 15, 2023</td>
-                        
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱75.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                                </td>
-                            </tr>
-                        </tbody>
+                     <tbody class="bg-white divide-y divide-gray-200">
+    <?php if (!empty($recentPurchases)): ?>
+        <?php foreach ($recentPurchases as $purchase): ?>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <?= htmlspecialchars($purchase['event_name']) ?>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <?= date('M d, Y', strtotime($purchase['event_date'])) ?>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ₱<?= number_format($purchase['ticket_price'], 2) ?>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <?php if ($purchase['status'] === 'Completed'): ?>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
+                    <?php else: ?>
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No purchases yet.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
                     </table>
                     <a href="/userPage/purchaseHistory.php" class="block mt-4 text-[#009332] text-sm font-medium hover:underline text-center">View all purchases</a>
                 </div>

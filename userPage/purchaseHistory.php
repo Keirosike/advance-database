@@ -1,3 +1,23 @@
+<?php 
+include("../database/conn.php");
+include("./userFunction.php");
+session_start();
+
+$user = new user($conn);
+$user_id = $_SESSION['user']['user_id'];
+
+// Pagination variables
+$itemsPerPage = 5;
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($currentPage < 1) $currentPage = 1;
+
+// Get ticket data
+$ticketsData = $user->purchase_history($user_id, $currentPage, $itemsPerPage=5);
+$tickets = $ticketsData['history'];
+$totalTickets = $ticketsData['total'];
+$totalPages = ceil($totalTickets / $itemsPerPage);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +26,6 @@
     <title>DNSC Events - Purchase History</title>
     <link rel="stylesheet" href="/src/output.css">
     <link rel="icon" href="/public/image/dnscLogo.png" class="w-5 h-5">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="font-primary flex flex-col min-h-screen bg-gray-100">
@@ -91,194 +110,147 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <!-- Sample Purchase 1 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-md object-cover" 
-                                                src="/public/image/event1.jpg" 
-                                                alt="Annual University Festival">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                Annual University Festival
+                            <?php if (count($tickets) > 0): ?>
+                                <?php foreach ($tickets as $ticket): 
+                                    // Determine status and styling
+                                    $status = 'completed'; // You should replace this with actual status from your data
+                                    $statusClass = [
+                                        'completed' => 'bg-green-100 text-green-800',
+                                        'pending' => 'bg-yellow-100 text-yellow-800',
+                                        'cancelled' => 'bg-red-100 text-red-800',
+                                        'refunded' => 'bg-blue-100 text-blue-800'
+                                    ][$status] ?? 'bg-gray-100 text-gray-800';
+                                ?>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 h-10 w-10">
+                                                    <img class="h-10 w-10 rounded-md object-cover" 
+                                                          src="/admin/upload/<?php echo htmlspecialchars($ticket['event_image']); ?>" 
+                                                        alt="<?= htmlspecialchars($ticket['event_name']) ?>">
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900">
+                                                        <?= htmlspecialchars($ticket['event_name']) ?>
+                                                    </div>
+                                                    <div class="text-sm text-gray-500">
+                                                        <?= date('M d, Y', strtotime($ticket['event_date'])) ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                <?= date('M d, Y', strtotime($ticket['order_date'])) ?>
                                             </div>
                                             <div class="text-sm text-gray-500">
-                                                May 15, 2023
+                                                <?= date('h:i A', strtotime($ticket['order_date'])) ?>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        May 10, 2023
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        10:30 AM
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        2 Tickets
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        General Admission
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ₱500.00
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Completed
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex justify-end space-x-2">
-                                        <button class="text-[#009332] hover:text-[#007A2A] cursor-pointer" title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-blue-600 hover:text-blue-900 cursor-pointer" title="Download Ticket">
-                                            <i class="fas fa-download"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Sample Purchase 2 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-md object-cover" 
-                                                src="/public/image/event2.jpg" 
-                                                alt="Sports Competition">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                Sports Competition
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                <?= $ticket['quantity'] ?? 1 ?> Ticket<?= ($ticket['quantity'] ?? 1) > 1 ? 's' : '' ?>
                                             </div>
                                             <div class="text-sm text-gray-500">
-                                                June 20, 2023
+                                                <?= htmlspecialchars($ticket['ticket_type'] ?? 'General Admission') ?>
                                             </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        June 15, 2023
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        2:45 PM
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        1 VIP Ticket
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        VIP Section
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ₱750.00
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        Pending
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex justify-end space-x-2">
-                                        <button class="text-[#009332] hover:text-[#007A2A] cursor-pointer" title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-400 cursor-not-allowed" title="Download unavailable" disabled>
-                                            <i class="fas fa-download"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Sample Purchase 3 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-md object-cover" 
-                                                src="/public/image/event3.jpg" 
-                                                alt="Graduation Ceremony">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                Graduation Ceremony
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            ₱<?= number_format($ticket['total_price'] ?? 0, 2) ?>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?= $statusClass ?>">
+                                                <?= ucfirst($status) ?>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <div class="flex justify-end space-x-2">
+                                                <button class="text-[#009332] hover:text-[#007A2A] cursor-pointer view-details" 
+                                                    data-ticket-id="<?= $ticket['ticket_id'] ?>"
+                                                    title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                <?php if ($status === 'completed'): ?>
+                                                    <button class="text-blue-600 hover:text-blue-900 cursor-pointer download-ticket" 
+                                                        data-ticket-id="<?= $ticket['ticket_id'] ?>"
+                                                        title="Download Ticket">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <button class="text-gray-400 cursor-not-allowed" 
+                                                        title="Download unavailable" disabled>
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                <?php endif; ?>
                                             </div>
-                                            <div class="text-sm text-gray-500">
-                                                July 10, 2023
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        July 1, 2023
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        9:15 AM
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        4 Tickets
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        Standard
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ₱1,200.00
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Cancelled
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex justify-end space-x-2">
-                                        <button class="text-[#009332] hover:text-[#007A2A] cursor-pointer" title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="text-gray-400 cursor-not-allowed" title="Download unavailable" disabled>
-                                            <i class="fas fa-download"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
+                                        No ticket purchases found.
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
                 <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
                     <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                         <div>
                             <p class="text-sm text-gray-700">
-                                Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">3</span> results
+                                Showing <span class="font-medium"><?= (($currentPage - 1) * $itemsPerPage) + 1 ?></span> to 
+                                <span class="font-medium"><?= min($currentPage * $itemsPerPage, $totalTickets) ?></span> of 
+                                <span class="font-medium"><?= $totalTickets ?></span> results
                             </p>
                         </div>
                         <div>
                             <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 opacity-50 cursor-not-allowed">
+                                <a href="?page=<?= max(1, $currentPage - 1) ?>" 
+                                   class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 <?= $currentPage == 1 ? 'opacity-50 cursor-not-allowed' : '' ?>">
                                     <span class="sr-only">Previous</span>
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
                                 
-                                <a href="#" class="bg-[#009332] text-white relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium">
-                                    1
-                                </a>
+                                <?php 
+                                $startPage = max(1, $currentPage - 2);
+                                $endPage = min($totalPages, $currentPage + 2);
                                 
-                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 opacity-50 cursor-not-allowed">
+                                if ($startPage > 1): ?>
+                                    <a href="?page=1" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                        1
+                                    </a>
+                                    <?php if ($startPage > 2): ?>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                            ...
+                                        </span>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                
+                                <?php for ($i = $startPage; $i <= $endPage; $i++): ?>
+                                    <a href="?page=<?= $i ?>" 
+                                       class="<?= $i == $currentPage ? 'bg-[#009332] text-white' : 'bg-white text-gray-700 hover:bg-gray-50' ?> relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium">
+                                        <?= $i ?>
+                                    </a>
+                                <?php endfor; ?>
+                                
+                                <?php if ($endPage < $totalPages): ?>
+                                    <?php if ($endPage < $totalPages - 1): ?>
+                                        <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                            ...
+                                        </span>
+                                    <?php endif; ?>
+                                    <a href="?page=<?= $totalPages ?>" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                        <?= $totalPages ?>
+                                    </a>
+                                <?php endif; ?>
+                                
+                                <a href="?page=<?= min($totalPages, $currentPage + 1) ?>" 
+                                   class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 <?= $currentPage == $totalPages ? 'opacity-50 cursor-not-allowed' : '' ?>">
                                     <span class="sr-only">Next</span>
                                     <i class="fas fa-chevron-right"></i>
                                 </a>
@@ -286,10 +258,54 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
-    
 
+    <!-- View Details Modal (to be implemented) -->
+    <div id="detailsModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <!-- Modal content -->
+    </div>
+
+    <script>
+        // View Details button functionality
+        document.querySelectorAll('.view-details').forEach(button => {
+            button.addEventListener('click', function() {
+                const ticketId = this.getAttribute('data-ticket-id');
+                // Implement modal display with ticket details
+                console.log('View details for ticket:', ticketId);
+                // You would typically fetch ticket details via AJAX here
+            });
+        });
+
+        // Download Ticket button functionality
+        document.querySelectorAll('.download-ticket').forEach(button => {
+            button.addEventListener('click', function() {
+                const ticketId = this.getAttribute('data-ticket-id');
+                // Implement download functionality
+                console.log('Download ticket:', ticketId);
+                window.location.href = `/download-ticket.php?id=${ticketId}`;
+            });
+        });
+
+        // Filter functionality
+        document.getElementById('status-filter').addEventListener('change', function() {
+            // Implement status filter
+            console.log('Filter by status:', this.value);
+            // You would typically reload the page with filter parameters or use AJAX
+        });
+
+        document.getElementById('date-filter').addEventListener('change', function() {
+            // Implement date filter
+            console.log('Filter by date:', this.value);
+        });
+
+        // Search functionality
+        document.getElementById('search').addEventListener('input', function() {
+            // Implement search
+            console.log('Search for:', this.value);
+        });
+    </script>
 </body>
 </html>

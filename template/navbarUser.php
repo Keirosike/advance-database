@@ -35,7 +35,7 @@
                     <img id="userBtn" src="/public/image/user1.gif" alt="User" class="w-9 h-9 cursor-pointer">
                     <!-- dropdown menu -->
                     <div id="userDropdown" class="absolute right-4 mt-2 w-32 bg-white rounded-lg shadow-lg hidden z-50">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                        <a href="/userPage/profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
                         <a href="../template/logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100">Logout</a>
                     </div>
                 </div>

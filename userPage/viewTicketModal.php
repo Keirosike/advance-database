@@ -85,10 +85,10 @@
         <p class="text-xs text-gray-400" id="issueDate"></p>
       </div>
       <div class="flex space-x-2">
-        <button class="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+        <button id="shareBtn" class="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
       Share
         </button>
-        <button class=" cursor-pointer rounded-md bg-[#009332] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#007A2A] focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
+        <button id="downloadQrBtn" class=" cursor-pointer rounded-md bg-[#009332] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#007A2A] focus:outline-none focus:ring-2 focus:ring-[#009332] focus:ring-offset-2">
          Download
         </button>
       </div>
@@ -108,6 +108,8 @@
     const ticketButtons = document.querySelectorAll('[data-ticket-button]');
     const modal = document.getElementById('ticket-modal');
     const closeModalBtn = modal.querySelector('#closeModal');
+    const downloadBtn = document.getElementById('downloadQrBtn');
+    const shareBtn = document.getElementById('shareBtn');
 
     ticketButtons.forEach(button => {
       button.addEventListener('click', () => {
@@ -143,7 +145,43 @@
         modal.classList.remove('flex');
       }
     });
+    
+  downloadBtn.addEventListener('click', () => {
+    const qrImage = document.getElementById('qrCodeImage');
+    const imageURL = qrImage.src;
+    const filename = qrImage.getAttribute('data-filename') || 'ticket-qr.png';
+
+    // Create a temporary link
+    const link = document.createElement('a');
+    link.href = imageURL;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
+  shareBtn.addEventListener('click', async () => {
+  const eventName = modal.querySelector('#eventName').textContent;
+  const ticketNumber = modal.querySelector('#ticketNumber').textContent;
+  const qrCodeImage = modal.querySelector('#qrCodeImage').src;
+  const shareText = `Ticket for ${eventName}\nTicket Number: ${ticketNumber}\nCheck your QR code here: ${qrCodeImage}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `Ticket for ${eventName}`,
+        text: shareText,
+        url: qrCodeImage // can share the QR code image URL or event URL
+      });
+      console.log('Ticket shared successfully');
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  } else {
+    alert('Sharing not supported on this browser. You can copy the ticket info manually.');
+  }
+});
+  });
+
 </script>
 
 
