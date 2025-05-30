@@ -29,7 +29,7 @@
                 <a href="/admin/dashboardAdmin.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Dashboard</a>
                 <a href="/admin/user.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Users</a>
                 <a href="/admin/event.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Event</a>
-                <a href="/admin/ticket.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Ticket</a>
+                <a href="/admin/transaction.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Transaction</a>
                 
                 <div class="ml-auto pr-3 pt-1 relative">
                     <img id="userBtn" src="/public/image/user1.gif" alt="User" class="w-9 h-9 cursor-pointer">

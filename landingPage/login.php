@@ -20,18 +20,24 @@ require_once('functionLanding.php');
         }else{
             $user = new user($conn);
             $userAuth = $user->login($email, $password);
+if ($userAuth) {
+    $_SESSION['user'] = $userAuth;
+    $fname = $userAuth['first_name'];
+    $successLog = true;
+    $message = $fname;
 
-            if($userAuth){
-                $_SESSION['user'] = $userAuth;
-                $fname = $userAuth['first_name'];
-                $successLog = true;
-                $message = $fname;
+    // ✅ Update status only if user is a regular user (not admin)
+    if ($userAuth['role'] === 'user') {
+        $stmt = $conn->prepare("UPDATE user SET status = 'Active', last_active = NOW() WHERE user_id = ?");
+        $stmt->execute([$userAuth['user_id']]);
+    }
+
+} else {
+    $failedLog = true;
+    $message = 'Invalid email or password.';
+}
+
                 
-            }else{
-                $failedLog = true;
-                $message = 'Invalid email or password.';
-            }
-     
 
         }
         

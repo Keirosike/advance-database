@@ -10,7 +10,7 @@ class user{
         try{
            
 
-            $stmt = $this->conn->prepare("INSERT INTO user (first_name, last_name, email, password) VALUES (:fName, :lName, :email, :password)");
+            $stmt = $this->conn->prepare("INSERT INTO user (first_name, last_name, email, password, account_created) VALUES (:fName, :lName, :email, :password, NOW())");
             $stmt->bindParam(':fName', $fname);
             $stmt->bindParam(':lName', $lname);
             $stmt->bindParam(':email', $email);

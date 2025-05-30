@@ -197,6 +197,57 @@ public function editEvent(array $data, array $file): array {
     return $response;
 }
 
- 
+public function getAllUser() {
+    try {
+        $stmt = $this->conn->prepare("CALL GetAllUsers()");
+        $stmt->execute();
+
+      return $stmt->fetchAll(PDO::FETCH_ASSOC); // Fetch as associative array
+       
+       
+    } catch (PDOException $e) {
+        // Handle error gracefully
+        echo "Error fetching users: " . $e->getMessage();
+        return [];
+    }
+}
+
+public function deleteUser($userId){
+    try{
+   $stmt = $this->conn->prepare("SELECT profile_image FROM user WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->execute();
+        $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($event && isset($event['profile_image'])) {
+            $imagePath = '/userPage/upload/' . $event['profile_image'];
+
+            // Step 2: Delete the image file if it exists
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        // Step 3: Delete the event record from the database
+        $stmt = $this->conn->prepare("DELETE FROM user WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $userId);
+        
+        return $stmt->execute(); // Return true if successful
+
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+public function getAllTransactions() {
+    try {
+        $stmt = $this->conn->prepare("SELECT * FROM transaction_view ORDER BY order_date DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Error fetching transactions: " . $e->getMessage();
+        return [];
+    }
+}
+
 }
 ?>

@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_profile'])) {
     <img src="<?= !empty($profileData['profile_image']) ? 'upload/'.$profileData['profile_image'] : '/public/image/user.png' ?>" 
          alt="Profile" 
          class="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-white object-cover shadow-md">
-    <button class="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 avatar-edit-btn">
+    <button   onclick="openEditProfileModal()" class="absolute bottom-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 avatar-edit-btn">
         <i class="fas fa-camera text-gray-600 text-base"></i>
     </button>
 </div>

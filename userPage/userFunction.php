@@ -112,7 +112,7 @@ public function myTicket($userId, $page = 1, $itemsPerPage = 5) {
     }
 }
 public function deleteTicket($user_id, $ticket_id) {
-    // First verify the ticket belongs to the user
+    // Verify ticket belongs to user
     $stmt = $this->conn->prepare("SELECT user_id FROM ticket_purchase WHERE ticket_id = :ticket_id");
     $stmt->execute([':ticket_id' => $ticket_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -125,10 +125,18 @@ public function deleteTicket($user_id, $ticket_id) {
         return false; // Ticket doesn't belong to this user
     }
 
-    // Now delete the ticket
+    // Delete the ticket
     $stmt = $this->conn->prepare("DELETE FROM ticket_purchase WHERE ticket_id = :ticket_id");
-    return $stmt->execute([':ticket_id' => $ticket_id]);
+    $stmt->execute([':ticket_id' => $ticket_id]);
+
+    // Check if any rows were deleted
+    if ($stmt->rowCount() > 0) {
+        return true; // Deleted successfully
+    } else {
+        return false; // No rows deleted
+    }
 }
+
 
 
 public function profile($user_id) {

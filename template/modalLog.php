@@ -35,7 +35,7 @@
         } else {
             window.location.href = '../userPage/dashboardUser.php';
         }
-    }, 3000);
+    }, 1500);
     </script>
 
 <?php elseif($failedLog): ?>
@@ -65,7 +65,7 @@
     <script>
         setTimeout(function() {
             window.location.href = 'login.php';
-        }, 3000);
+        }, 1500);
     </script>
 <?php endif; ?>
 

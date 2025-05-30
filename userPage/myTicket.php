@@ -5,22 +5,22 @@ session_start();
 
 $user = new user($conn);
 $user_id = $_SESSION['user']['user_id'];
-
+$successDeleteTicket=false;
+$failedDeleteTicket=false;
 // Handle delete request
 if (isset($_POST['delete_ticket']) && isset($_POST['ticket_id'])) {
     $ticket_id = $_POST['ticket_id'];
     $result = $user->deleteTicket($user_id, $ticket_id);
     if ($result) {
-        $_SESSION['message'] = "Ticket deleted successfully";
-        $_SESSION['message_type'] = "success";
+$successDeleteTicket = true;
     } else {
-        $_SESSION['message'] = "Failed to delete ticket";
-        $_SESSION['message_type'] = "error";
+               $failedDeleteTicket = true;
+        $message= "Failed to delete ticket";
+
     }
-    // Redirect to avoid form resubmission
-    header("Location: ".$_SERVER['PHP_SELF']);
-    exit();
+
 }
+include("./successDeleteTicket.php");
 
 // Pagination variables
 $itemsPerPage = 5; // Number of tickets per page
@@ -146,7 +146,7 @@ $totalPages = ceil($totalTickets / $itemsPerPage);
                                             <?php if ($isUpcoming): ?>
                                               
                                                     <input type="hidden" name="ticket_id" value="<?= $ticket['ticket_id'] ?>">
-                                                    <button type="submit" name="delete_ticket" class="cursor-pointer px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md transition flex items-center justify-center" onclick="openDeleteModal(<?= $ticket['ticket_id'] ?>)" >
+                                                    <button type="button" name="delete_ticket" class="cursor-pointer px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md transition flex items-center justify-center" onclick="openDeleteModal(<?= $ticket['ticket_id'] ?>)" >
                                                         <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
