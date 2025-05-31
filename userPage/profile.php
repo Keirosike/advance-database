@@ -223,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_profile'])) {
                             </div>
                             <i class="fas fa-chevron-right text-gray-400 ml-auto"></i>
                         </a>
-                        <a href="../template/logout.php" class="flex items-center px-6 py-4 hover:bg-gray-50 transition">
+                        <a   onclick="openLogoutModal()"  class=" cursor-pointer flex items-center px-6 py-4 hover:bg-gray-50 transition">
                             <div class="flex-shrink-0 h-8 w-8 rounded-full bg-green-50 flex items-center justify-center mr-4">
                                 <i class="fas fa-sign-out-alt text-[#009332] text-sm"></i>
                             </div>
@@ -370,6 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_profile'])) {
         </div>
     </div>
 <?php include("./editProfileModal.php");?>
+<?php include("../template/confirmLogOut.php");?>
 
 </body>
 </html>

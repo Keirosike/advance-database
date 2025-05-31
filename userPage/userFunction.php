@@ -15,13 +15,13 @@ public function showEvent($page = 1, $perPage = 8) {
         $stmt = $this->conn->prepare("
             SELECT * FROM events
             ORDER BY
-                -- First, prioritize upcoming events (0 for future, 1 for past)
+             
                 CASE 
                     WHEN event_date > CURDATE() THEN 0
                     WHEN event_date = CURDATE() AND event_start_time >= CURTIME() THEN 0
                     ELSE 1
                 END ASC,
-                -- Then sort upcoming events by soonest date/time
+             
                 event_date ASC,
                 event_start_time ASC
             LIMIT :limit OFFSET :offset

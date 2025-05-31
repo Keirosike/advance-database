@@ -36,7 +36,11 @@
                     <!-- dropdown menu -->
                     <div id="userDropdown" class="absolute right-4 mt-2 w-32 bg-white rounded-lg shadow-lg hidden z-50">
        
-                        <a href="../template/logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100">Logout</a>
+                        <button 
+  onclick="openLogoutModal()" 
+  class="block w-full cursor-pointer py-2 text-sm text-red-600 hover:text-white hover:bg-red-600 rounded-md transition duration-200 ease-in-out">
+  Logout
+</button>
                     </div>
                 </div>
             </div>
@@ -47,7 +51,11 @@
         <!-- mobile dropdown menu-->
         <div id="mobileUserDropdown" class="absolute right-0 top-full mt-2 w-32 bg-white rounded-lg shadow-xl z-50 hidden ">
 
-            <a href="../template/logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">Logout</a>
+           <button 
+  onclick="openLogoutModal()" 
+  class="block w-full cursor-pointer py-2 text-sm text-red-600 hover:text-white hover:bg-red-600 rounded-md transition duration-200 ease-in-out">
+  Logout
+</button>
         </div>
     </div>
 </div>
@@ -76,6 +84,7 @@
     </div>
     <div id="overlay" class="fixed inset-0 bg-[rgba(0,0,0,0.4)] hidden z-40"></div>
 </nav>
+<?php include("../template/confirmLogOut.php");?>
 
 <script>
     const hamburgerIcon = document.getElementById('hamburger-icon');

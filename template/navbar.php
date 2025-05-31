@@ -23,7 +23,7 @@
             <div class="hidden md:flex mx-3 gap-5 ml-auto">
                 <a href="/landingPage/homePage.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Home</a>
                 <a href="/landingPage/homePage.php#about-us" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">About</a>
-                <a href="#" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Contact us</a>
+                <a href="/landingPage/contactUs.php" class="text-black font-regular p-2 rounded-full px-6 hover:bg-[#009332] hover:text-white transition">Contact us</a>
                 <div class="ml-auto flex items-center justify-center bg-[#009332] rounded-full w-25 h-10 cursor-pointer hover:bg-[#007A2A] px-4">
                     <?php
                     $currentPage = basename($_SERVER['PHP_SELF']);
@@ -57,8 +57,8 @@
                 </div>
                     
             <a href="/landingPage/homePage.php" class="text-black font-regular p-2 hover:bg-gray-100 rounded">Home</a>
-            <a href="#" class="text-black font-regular p-2  hover:bg-gray-100 rounded">About</a>
-            <a href="#" class="text-black font-regular p-2 hover:bg-gray-100 rounded">Contact</a>
+            <a href="/landingPage/homePage.php#about-us" class="text-black font-regular p-2  hover:bg-gray-100 rounded">About</a>
+            <a href="/landingPage/contactUs.php" class="text-black font-regular p-2 hover:bg-gray-100 rounded">Contact</a>
             <div class="flex items-center justify-center bg-[#009332] rounded-full p-2 px-4 hover:bg-[#007A2A] mt-4">
                 <?php
                 $currentPage = basename($_SERVER['PHP_SELF']);

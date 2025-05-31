@@ -65,6 +65,8 @@ $transactions = $admin->getAllTransactions();
 
             <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
+                            <div class="max-h-[500px] overflow-y-auto">
+
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -95,6 +97,7 @@ $transactions = $admin->getAllTransactions();
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="transactionsTableBody">
+                            
                             <!-- Transaction 1 -->
                           <?php
 
@@ -201,34 +204,8 @@ $formattedTime = $startTime . ' - ' . $endTime;
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Pagination -->
-                <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div>
-                            <p class="text-sm text-gray-700">
-                                Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of <span class="font-medium">4</span> results
-                            </p>
-                        </div>
-                        <div>
-                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 opacity-50 cursor-not-allowed">
-                                    <span class="sr-only">Previous</span>
-                                    <i class="fas fa-chevron-left"></i>
-                                </a>
-                                
-                                <a href="#" class="bg-[#009332] text-white relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium">
-                                    1
-                                </a>
-                                
-                                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 opacity-50 cursor-not-allowed">
-                                    <span class="sr-only">Next</span>
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
+</div>
+            
             </div>
         </div>
     </div>

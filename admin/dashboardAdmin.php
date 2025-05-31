@@ -26,7 +26,7 @@ $pendingApprovals = $admin->getPendingApprovals();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | DNSC Events</title>
+    <title>DNSC Events - Dashboard</title>
     <meta name="description" content="Admin Dashboard - Manage university events and activities">
 <link rel="stylesheet" href="/src/output.css">
     <link rel="icon" href="/public/image/dnscLogo.png" type="image/png">
