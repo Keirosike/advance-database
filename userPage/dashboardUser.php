@@ -15,7 +15,7 @@
     $page = 1; // Static page since you only want to show 3
     $itemsPerPage = 3; // LIMIT to 3 items only
 
-    $purchaseData = $user->purchase_history($user_id, $page, $itemsPerPage);
+    $purchaseData = $user->purchase_history($user_id, $page, $itemsPerPage =4);
     $recentPurchases = $purchaseData['history'];
     $totalPurchases = $purchaseData['total'];
     

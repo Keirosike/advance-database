@@ -25,7 +25,7 @@
     <script>
         setTimeout(function() {
         
-                    window.location.href = '../admin/event.php';
+                    window.location.href = '../admin/user.php';
                 }, 1500);   
 
 
@@ -61,7 +61,7 @@
 
     <script>
        setTimeout(function() {
-            window.location.href = '../admin/event.php';
+            window.location.href = '../admin/user.php';
         }, 1500);   
             
                 function closeModal() {

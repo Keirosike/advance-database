@@ -11,14 +11,28 @@ class user{
 public function showEvent($page = 1, $perPage = 8) {
     try {
         $offset = ($page - 1) * $perPage;
-        $stmt = $this->conn->prepare("    SELECT * FROM events
-    ORDER BY (event_date = CURDATE() AND event_start_time >= CURTIME()) DESC, 
-(event_date > CURDATE() OR (event_date = CURDATE() AND event_start_time > CURTIME())) DESC, event_date ASC, event_start_time ASC LIMIT :limit OFFSET :offset");
+
+        $stmt = $this->conn->prepare("
+            SELECT * FROM events
+            ORDER BY
+                -- First, prioritize upcoming events (0 for future, 1 for past)
+                CASE 
+                    WHEN event_date > CURDATE() THEN 0
+                    WHEN event_date = CURDATE() AND event_start_time >= CURTIME() THEN 0
+                    ELSE 1
+                END ASC,
+                -- Then sort upcoming events by soonest date/time
+                event_date ASC,
+                event_start_time ASC
+            LIMIT :limit OFFSET :offset
+        ");
+
         $stmt->bindValue(':limit', (int)$perPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         error_log("Database error: " . $e->getMessage());
         return false;
     }
@@ -411,6 +425,26 @@ public function sumPendingPayments($userId) {
     $stmt->execute([$userId]);
     return $stmt->fetchColumn() ?: 0;
 }
+
+
+
+public function showEvents($page = 1, $perPage = 3) {
+    try {
+        $stmt = $this->conn->prepare("CALL showEvent(:page, :perPage)");
+        $stmt->bindValue(':page', $page, PDO::PARAM_INT);
+        $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $stmt->execute();
+
+           return $stmt->fetchAll(PDO::FETCH_ASSOC);
+     
+
+ 
+    } catch (PDOException $e) {
+        echo "Error fetching users: " . $e->getMessage();
+        return [];
+    }
+}
+
 
 
 }

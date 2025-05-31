@@ -9,23 +9,19 @@ class Transaction{
     }
 
 
-public function purchaseTicket( $user_id, $event_id, $quantity, $price_per_ticket, $payment_method) {
-    $total_price = $quantity * $price_per_ticket;
-    $order_date = date('Y-m-d H:i:s');
-   
-    $ticket_code = uniqid('TCKT-');
-
-    $stmt = $this->conn->prepare("INSERT INTO ticket_purchase (user_id, event_id, quantity, total_price, order_date, ticket_code, payment_method)
-            VALUES (:user_id, :event_id, :quantity, :total_price, :order_date, :ticket_code, :payment_method)");
-    return $stmt->execute([
-        ':user_id' => $user_id,
-        ':event_id' => $event_id,
-        ':quantity' => $quantity,
-        ':total_price' => $total_price,
-        ':order_date' => $order_date,
-        ':ticket_code' => $ticket_code,
-        ':payment_method' => $payment_method
-    ]);
+public function purchaseTicket($user_id, $event_id, $quantity, $payment_method) {
+    $stmt = $this->conn->prepare("CALL purchase_ticket(:user_id, :event_id, :quantity, :payment_method, @result)");
+    
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->bindParam(':event_id', $event_id, PDO::PARAM_INT);
+    $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+    $stmt->bindParam(':payment_method', $payment_method, PDO::PARAM_STR);
+    
+    $stmt->execute();
+    
+    // Get result
+    $result = $this->conn->query("SELECT @result AS result")->fetch(PDO::FETCH_ASSOC);
+    return $result['result'];  // 'Success' or 'Not enough tickets available'
 }
 
 }

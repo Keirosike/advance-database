@@ -204,5 +204,39 @@ function closeModal() {
     document.getElementById('createEventModal').classList.add('hidden');
 }
 
+window.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('eventDate');
+    const startTimeInput = document.getElementById('eventstartTime');
+    const endTimeInput = document.getElementById('eventendTime');
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const minDate = `${yyyy}-${mm}-${dd}`;
+    
+    // Disable past dates
+    dateInput.min = minDate;
+
+    // Check date change
+    dateInput.addEventListener('change', function () {
+        const selectedDate = new Date(dateInput.value);
+        const isToday = dateInput.value === minDate;
+
+        if (isToday) {
+            const now = new Date();
+            const currentHours = String(now.getHours()).padStart(2, '0');
+            const currentMinutes = String(now.getMinutes()).padStart(2, '0');
+            const minTime = `${currentHours}:${currentMinutes}`;
+            
+            startTimeInput.min = minTime;
+            endTimeInput.min = minTime;
+        } else {
+            // If future date, allow all times
+            startTimeInput.min = '00:00';
+            endTimeInput.min = '00:00';
+        }
+    });
+});
 
 </script> 

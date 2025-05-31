@@ -1,3 +1,26 @@
+<?php
+
+include("../database/conn.php");
+include("./adminFunction.php");
+
+$admin = new admin($conn);
+
+
+
+$transactions = $admin->getRecentTransactions(); 
+
+
+
+$events = $admin->showEventInDashboard();
+
+
+$totalEvents = $admin->getTotalEvents();
+$totalRevenue = $admin->getTotalRevenue();
+$activeUsers = $admin->getActiveUsers();
+$pendingApprovals = $admin->getPendingApprovals();
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,7 +95,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-gray-500 text-sm font-medium mb-1">Total Events</h3>
-                        <p class="text-2xl font-bold text-indigo-600">24</p>
+                        <p class="text-2xl font-bold text-indigo-600"><?= htmlspecialchars($totalEvents) ?></p>
                        
                     </div>
                     <div class="p-3 rounded-lg bg-indigo-50 text-indigo-600">
@@ -88,7 +111,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-gray-500 text-sm font-medium mb-1">Total Revenue</h3>
-                        <p class="text-2xl font-bold text-rose-600">₱12,450.00</p>
+                        <p class="text-2xl font-bold text-rose-600">₱<?= number_format($totalRevenue, 2) ?></p>
                    
                     </div>
                     <div class="p-3 rounded-lg bg-rose-50 text-rose-600">
@@ -104,7 +127,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-gray-500 text-sm font-medium mb-1">Active Users</h3>
-                        <p class="text-2xl font-bold text-emerald-600">156</p>
+                        <p class="text-2xl font-bold text-emerald-600"><?= htmlspecialchars($activeUsers) ?></p>
                
                     </div>
                     <div class="p-3 rounded-lg bg-emerald-50 text-emerald-600">
@@ -119,8 +142,8 @@
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-gray-500 text-sm font-medium mb-1">Pending Approvals</h3>
-                        <p class="text-2xl font-bold text-amber-600">5</p>
+                        <h3 class="text-gray-500 text-sm font-medium mb-1">Pending Payments</h3>
+                        <p class="text-2xl font-bold text-amber-600"><?= htmlspecialchars($pendingApprovals ?? 0) ?></p>
                   
                     </div>
                     <div class="p-3 rounded-lg bg-amber-50 text-amber-600">
@@ -142,43 +165,26 @@
                 </div>
                 <div class="space-y-4">
                     <!-- Event 1 -->
-                    <div class="event-card flex items-start gap-3 p-2 hover:bg-gray-50 rounded transition">
-                        <div class="bg-[#009332] text-white text-xs font-bold px-2 py-1 rounded min-w-[60px] text-center">
-                            <p>JUN</p>
-                            <p class="text-lg">15</p>
-                        </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800">Annual Sports Festival</h3>
-                            <p class="text-sm text-gray-500">9:00 AM - 5:00 PM</p>
-                            <p class="text-sm text-gray-500">DNSC Gymnasium</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Event 2 -->
-                    <div class="event-card flex items-start gap-3 p-2 hover:bg-gray-50 rounded transition">
-                        <div class="bg-[#009332] text-white text-xs font-bold px-2 py-1 rounded min-w-[60px] text-center">
-                            <p>JUN</p>
-                            <p class="text-lg">20</p>
-                        </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800">Research Symposium</h3>
-                            <p class="text-sm text-gray-500">8:00 AM - 4:00 PM</p>
-                            <p class="text-sm text-gray-500">University Auditorium</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Event 3 -->
-                    <div class="event-card flex items-start gap-3 p-2 hover:bg-gray-50 rounded transition">
-                        <div class="bg-[#009332] text-white text-xs font-bold px-2 py-1 rounded min-w-[60px] text-center">
-                            <p>JUN</p>
-                            <p class="text-lg">25</p>
-                        </div>
-                        <div>
-                            <h3 class="font-medium text-gray-800">Alumni Homecoming</h3>
-                            <p class="text-sm text-gray-500">6:00 PM - 10:00 PM</p>
-                            <p class="text-sm text-gray-500">Grand Ballroom</p>
-                        </div>
-                    </div>
+                  <?php foreach ($events as $event): ?>
+                            <?php
+                            $date = new DateTime($event['event_date']);
+                            $month = strtoupper($date->format('M'));
+                            $day = $date->format('d');
+                            
+                            ?>
+               <a href="./event.php" class="event-card flex items-start gap-3 p-2 hover:bg-gray-50 rounded transition view-details-btn cursor-pointer" >
+                <div class="bg-[#009332] text-white text-xs font-bold px-2 py-1 rounded min-w-[60px] text-center">
+                    <p><?= $month ?></p>
+                    <p class="text-lg"><?= $day ?></p>
+                </div>
+                <div>
+                    <h3 class="font-medium text-gray-800"><?= htmlspecialchars($event['event_name']) ?></h3>
+                    <p class="text-sm text-gray-500"><?= date('g:i A', strtotime($event['event_start_time'])) ?> - <?= date('g:i A', strtotime($event['event_end_time'])) ?></p>
+                    <p class="text-sm text-gray-500"><?= htmlspecialchars($event['event_location']) ?></p>
+                </div>
+            </a>
+        <?php endforeach; ?>
+                
                 </div>
             </div>
             
@@ -201,43 +207,40 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <!-- Transaction 1 -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TRX-2023-001</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Juan Dela Cruz</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Annual Sports Festival</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱150.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 10, 2023</td>
-                            </tr>
-                            
-                            <!-- Transaction 2 -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TRX-2023-002</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Maria Santos</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Research Symposium</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱200.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 12, 2023</td>
-                            </tr>
-                            
-                            <!-- Transaction 3 -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TRX-2023-003</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Pedro Reyes</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Alumni Homecoming</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₱350.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 14, 2023</td>
-                            </tr>
+                        <?php
+
+foreach ($transactions as $transaction) {
+    // Format date and price
+    $formattedDate = date("M d, Y", strtotime($transaction['order_date']));
+    $formattedPrice = "₱" . number_format($transaction['total_price'], 2);
+    
+    // Optional: Badge color by status
+    $statusColor = match (strtolower($transaction['status'])) {
+        'completed' => 'bg-green-100 text-green-800',
+        'pending' => 'bg-yellow-100 text-yellow-800',
+        'cancelled' => 'bg-red-100 text-red-800',
+        default => 'bg-gray-100 text-gray-800',
+    };
+
+    echo "<tr>
+        <td class='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>#{$transaction['purchase_id']}</td>
+        <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{$transaction['full_name']}</td>
+        <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{$transaction['event_name']}</td>
+        <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{$formattedPrice}</td>
+        <td class='px-6 py-4 whitespace-nowrap'>
+            <span class='px-2 inline-flex text-xs leading-5 font-semibold rounded-full {$statusColor}'>
+                {$transaction['status']}
+            </span>
+        </td>
+        <td class='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{$formattedDate}</td>
+    </tr>";
+}
+?>
+
+                        
                         </tbody>
                     </table>
-                     <a href="/userPage/transaction.php" class="block mt-4 text-[#009332] text-sm font-medium hover:underline text-center">View all transaction</a>
+                     <a href="./transaction.php" class="block mt-4 text-[#009332] text-sm font-medium hover:underline text-center">View all transaction</a>
                 </div>
             </div>
         </div>
@@ -246,7 +249,6 @@
         <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold text-gray-800">Event Calendar</h2>
-                <a href="/admin/events/create" class="text-sm text-white bg-[#009332] px-3 py-1 rounded hover:bg-[#007a29] transition">Add Event</a>
             </div>
             <div id="calendar" class="h-full"></div>
         </div>
@@ -255,7 +257,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-sm text-gray-500">&copy; 2023 DNSC Events Management System. All rights reserved.</p>
+            <p class="text-center text-sm text-gray-500">&copy; 2025 DNSC Event Ticketing Management System. All rights reserved.</p>
         </div>
     </footer>
 
@@ -272,26 +274,7 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                events: [
-                    {
-                        title: 'Annual Sports Festival',
-                        start: '2023-06-15',
-                        end: '2023-06-15',
-                        backgroundColor: '#009332'
-                    },
-                    {
-                        title: 'Research Symposium',
-                        start: '2023-06-20',
-                        end: '2023-06-20',
-                        backgroundColor: '#3b82f6'
-                    },
-                    {
-                        title: 'Alumni Homecoming',
-                        start: '2023-06-25',
-                        end: '2023-06-25',
-                        backgroundColor: '#8b5cf6'
-                    }
-                ]
+     
             });
             calendar.render();
         });

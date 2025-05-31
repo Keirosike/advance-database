@@ -188,9 +188,9 @@
                                                 $statusClass = ($status === 'Upcoming') ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
                                                 
                                                 // Calculate ticket percentage (assuming you have a way to get tickets sold)
-                                                $ticketsSold = 0; // Replace with actual query to count tickets sold
-                                                $ticketPercentage = ($event['ticket_quantity'] > 0) ? ($ticketsSold / $event['ticket_quantity']) * 100 : 0;
-                                                $revenue = $ticketsSold * $event['ticket_price'];
+                                                    $ticketsSold = $event['tickets_sold'];
+                                                    $ticketPercentage = ($event['ticket_quantity'] > 0) ? ($ticketsSold / $event['ticket_quantity']) * 100 : 0;
+                                                    $revenue = $ticketsSold * $event['ticket_price'];
                                             ?>
                                             <tr class="hover:bg-gray-50" id="event-row-<?= $event['event_id'] ?>">
                                                 <td class="px-6 py-4 whitespace-nowrap">

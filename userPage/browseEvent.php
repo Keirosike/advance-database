@@ -110,6 +110,7 @@
                 $eventId = (int)$event['event_id'];
                 $eventDescription = htmlspecialchars($event['event_description'] ?? 'No description available');
                 
+                
                 // Determine if event is past
                 $isPast = time() > $eventDateTime;
                 $statusClass = $isPast ? "bg-gray-100 text-gray-800" : "bg-green-100 text-green-800";
@@ -122,6 +123,7 @@
             data-end-time="<?php echo $endTime; ?>"
             data-search="<?php echo strtolower($eventName . ' ' . $eventType . ' ' . $eventLocation); ?>"
             data-description="<?php echo $eventDescription; ?>"
+             data-ticket-quantity="<?= $event['ticket_quantity'] ?>"
             >
             
             <img src="/admin/upload/<?php echo $eventImage; ?>" 
@@ -283,6 +285,43 @@
         // Initial filter
         filterEvents();
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+    function updatePastEvents() {
+        const now = new Date();
+
+        document.querySelectorAll('.event-card').forEach(card => {
+            const eventDate = card.dataset.date;
+            const startTime = card.dataset.startTime;
+
+            // Combine date and time to get full datetime
+            const eventDateTime = new Date(`${eventDate}T${convertTo24Hour(startTime)}`);
+
+            if (now > eventDateTime) {
+                const typeBadge = card.querySelector('.event-type');
+                card.classList.add('opacity-70'); // Optional: fade card
+                typeBadge.classList.remove('bg-green-100', 'text-green-800');
+                typeBadge.classList.add('bg-gray-100', 'text-gray-800');
+            }
+        });
+    }
+
+    // Convert 12-hour time to 24-hour format (e.g., "3:30 PM" to "15:30")
+    function convertTo24Hour(time12h) {
+        const [time, modifier] = time12h.split(' ');
+        let [hours, minutes] = time.split(':');
+        if (modifier === 'PM' && hours !== '12') {
+            hours = parseInt(hours, 10) + 12;
+        }
+        if (modifier === 'AM' && hours === '12') {
+            hours = '00';
+        }
+        return `${hours}:${minutes}`;
+    }
+
+    updatePastEvents(); // Run once on load
+    setInterval(updatePastEvents, 60000); // Update every minute
+});
     </script>
     </body>
     </html>

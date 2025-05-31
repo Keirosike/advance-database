@@ -179,7 +179,7 @@ $formattedTime = $startTime . ' - ' . $endTime;
     data-id="<?= htmlspecialchars($transaction['purchase_id']) ?>"
     data-user-name="<?= htmlspecialchars($transaction['full_name']) ?>"
     data-user-email="<?= htmlspecialchars($transaction['email']) ?>"
-    data-user-image="<?= htmlspecialchars($transaction['user_image'] ?? '') ?>"
+    data-user-image="<?= htmlspecialchars($transaction['profile_image'] ?? '') ?>"
     data-event="<?= htmlspecialchars($transaction['event_name']) ?>"
     data-event-date="<?= htmlspecialchars($date) ?>"
     data-order-date="<?= htmlspecialchars(date('F d, Y h:i A', strtotime($transaction['order_date']))) ?>"

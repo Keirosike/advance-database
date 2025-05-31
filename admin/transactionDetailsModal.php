@@ -64,12 +64,18 @@
                                     </dd>
                                 </div>
                                 <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                                       
                                     <dt class="text-sm font-medium text-gray-500">
+                                        
                                         Payment Method
                                     </dt>
+                                    <div class="flex">
+                                                    <i class="fa-solid fa-g text-blue-500 mr-2"></i>
+
                                     <dd id="modal-payment-method" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                         <!-- Will be filled by JavaScript -->
                                     </dd>
+                                    </div>
                                 </div>
                                 <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                                     <dt class="text-sm font-medium text-gray-500">
@@ -110,11 +116,14 @@ function openTransactionDetails(button) {
     const modal = document.getElementById('transactionDetailsModal');
     const data = button.dataset;
     
+    
     // Set transaction ID
     document.getElementById('modal-transaction-id').textContent = `#${data.id}`;
     
     // Set user info
-    document.getElementById('modal-user-image').src = data.userImage || '/public/image/user.png';
+ document.getElementById('modal-user-image').src = data.userImage
+    ? `/userPage/upload/${data.userImage}`
+    : '/public/image/user.png';
     document.getElementById('modal-user-image').alt = data.userName;
     document.getElementById('modal-user-name').textContent = data.userName;
     document.getElementById('modal-user-email').textContent = data.userEmail || 'N/A';

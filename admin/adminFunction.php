@@ -9,6 +9,19 @@ class admin{
 
 }
 
+public function showEventInDashboard(){
+    try{
+
+        $stmt = $this->conn->prepare("SELECT * FROM events WHERE event_date >= CURDATE() ORDER BY event_date ASC, event_start_time ASC LIMIT 3");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }catch(PDOException $e){
+        error_log("Database error: " . $e->getMessage());
+        return false;
+    }
+}
+
+
 public function createEvent(array $data, array $file): array {
         $response = ['success' => false, 'message' => ''];
 
@@ -238,16 +251,77 @@ public function deleteUser($userId){
         return false;
     }
 }
-public function getAllTransactions() {
+    public function getAllTransactions() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM transaction_view ORDER BY order_date DESC");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Error fetching transactions: " . $e->getMessage();
+            return [];
+        }
+    }
+
+    public function getRecentTransactions() {
     try {
-        $stmt = $this->conn->prepare("SELECT * FROM transaction_view ORDER BY order_date DESC");
+        $stmt = $this->conn->prepare("SELECT * FROM transaction_view ORDER BY order_date DESC LIMIT 4");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        echo "Error fetching transactions: " . $e->getMessage();
+        echo "Error fetching recent transactions: " . $e->getMessage();
         return [];
     }
 }
+
+
+    public function getTotalEvents() {
+    try {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM events");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'] ?? 0;
+    } catch (PDOException $e) {
+        echo "Error fetching total events: " . $e->getMessage();
+        return 0;
+    }
+}
+
+public function getTotalRevenue() {
+    try {
+        $stmt = $this->conn->prepare("SELECT SUM(total_price) AS revenue FROM purchase_history WHERE status = 'Completed'");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['revenue'] ?? 0;
+    } catch (PDOException $e) {
+        echo "Error fetching revenue: " . $e->getMessage();
+        return 0;
+    }
+}
+
+public function getActiveUsers() {
+    try {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM user WHERE status = 'active'");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'] ?? 0;
+    } catch (PDOException $e) {
+        echo "Error fetching active users: " . $e->getMessage();
+        return 0;
+    }
+}
+
+public function getPendingApprovals() {
+    try {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) AS total FROM purchase_history WHERE status = 'pending'");
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'] ?? 0;
+    } catch (PDOException $e) {
+        echo "Error fetching pending approvals: " . $e->getMessage();
+        return 0;
+    }
+}
+
 
 }
 ?>
